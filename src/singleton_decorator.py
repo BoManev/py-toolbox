@@ -1,4 +1,5 @@
-functools import wraps
+from functools import wraps
+
 
 def singleton(_cls):
     _new = _cls.__new__
@@ -13,4 +14,3 @@ def singleton(_cls):
 
     _cls.__new__ = __new__
     return _cls
-

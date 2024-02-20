@@ -1,5 +1,6 @@
 import sys
 
+# test comment
 class persistent_locals(object):
     def __init__(self, func):
         self._locals = {}
