@@ -2,9 +2,6 @@ from dataclasses import InitVar, dataclass
 from typing import Any
 from uuid import UUID, uuid4, uuid5
 
-from event_sourcery.event_store.exceptions import IncompatibleUuidAndName
-
-
 @dataclass(frozen=True, repr=False, eq=False)
 class EventIDBase(UUID):
     NAMESPACE = UUID("3a24a3ee-d33d-4266-93ab-7d8e256a6d44")
@@ -24,7 +21,7 @@ class EventIDBase(UUID):
             super().__init__(bytes=uuid4().bytes)
 
         if self.name and (expected := self._from_name(self.name)) != self:
-            raise IncompatibleUuidAndName(self, expected, self.name)
+            raise Exception(self, expected, self.name)
 
     def _from_name(self, name: str) -> UUID:
         return uuid5(self.NAMESPACE, name)
@@ -34,7 +31,7 @@ class EventIDBase(UUID):
 
 
 @dataclass(frozen=True, repr=False, eq=False)
-class StreamId(StreamUUID):
+class StreamId(EventIDBase):
     category: str | None = None
 
     def __repr__(self) -> str:
